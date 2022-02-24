@@ -1,6 +1,5 @@
 package com.pedrogomes.cursmc;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +8,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.pedrogomes.cursmc.domain.Categoria;
+import com.pedrogomes.cursmc.domain.Cidade;
+import com.pedrogomes.cursmc.domain.Estado;
 import com.pedrogomes.cursmc.domain.Produto;
 import com.pedrogomes.cursmc.repositories.CategoriaRepository;
+import com.pedrogomes.cursmc.repositories.CidadeRepository;
+import com.pedrogomes.cursmc.repositories.EstadoRepository;
 import com.pedrogomes.cursmc.repositories.ProdutoRepository;
 
 @SpringBootApplication
@@ -18,9 +21,12 @@ public class CursomcApplication implements CommandLineRunner{
 
 	@Autowired
 	private CategoriaRepository categoriaRepository;
-	
 	@Autowired
 	private ProdutoRepository produtoRepository;
+	@Autowired
+	private EstadoRepository estadoRepository;
+	@Autowired
+	private CidadeRepository cidadeRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -45,6 +51,20 @@ public class CursomcApplication implements CommandLineRunner{
 		//Salvando os objetos no banco de dados
 		categoriaRepository.saveAll(Arrays.asList(cat1, cat2));
 		produtoRepository.saveAll(Arrays.asList(p1, p2, p3));
+	
+		
+		Estado est1 = new Estado(null, "Minas Gerais");
+		Estado est2 = new Estado(null, "São Paulo");
+		
+		Cidade c1 = new Cidade(null, "Uberlândia", est1);
+		Cidade c2 = new Cidade(null, "São Paulo", est2);
+		Cidade c3 = new Cidade(null, "Campinas", est2);
+		
+		est1.getCidades().addAll(Arrays.asList(c1));
+		est2.getCidades().addAll(Arrays.asList(c2, c3));
+		
+		estadoRepository.saveAll(Arrays.asList(est1, est2));
+		cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
 	}
 
 }
