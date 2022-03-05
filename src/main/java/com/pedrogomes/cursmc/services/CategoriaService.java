@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.pedrogomes.cursmc.domain.Categoria;
+import com.pedrogomes.cursmc.dto.CategoriaDTO;
 import com.pedrogomes.cursmc.repositories.CategoriaRepository;
 import com.pedrogomes.cursmc.services.exceptions.DataIntegrityException2;
 import com.pedrogomes.cursmc.services.exceptions.ObjectNotFoundException;
@@ -57,6 +58,11 @@ public class CategoriaService {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return repo.findAll(pageRequest);
 	}
+	
+	public Categoria fromDTO(CategoriaDTO objDto) {
+		return new Categoria(objDto.getId(), objDto.getName());
+	}
+	
 	
 }
 
